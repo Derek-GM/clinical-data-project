@@ -4,58 +4,289 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>臨床數據分析專案｜Derek</title>
+  <meta name="description" content="臨床數據分析與預測模型建構：WDBC 資料集、統計分析、Logistic Regression 與 Random Forest、ROC-AUC、混淆矩陣與特徵重要性。" />
+
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
-      line-height: 1.7;
-      color: #111;
-      background: #fff;
+    :root{
+      --bg:#ffffff;
+      --muted:#6b7280;
+      --text:#111827;
+      --line:#e5e7eb;
+      --card:#ffffff;
+      --soft:#f9fafb;
+      --accent:#2563eb;
+      --accent2:#16a34a;
+      --shadow: 0 8px 24px rgba(17,24,39,.08);
+      --radius: 16px;
     }
-    header {
-      padding: 48px 16px 28px;
-      border-bottom: 1px solid #eee;
-      background: #fafafa;
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: system-ui, -apple-system, "Noto Sans TC","PingFang TC","Microsoft JhengHei", Arial, sans-serif;
+      line-height:1.75;
     }
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 16px 64px;
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
+
+    header{
+      background:linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      border-bottom:1px solid var(--line);
     }
-    h1 { font-size: 28px; margin-bottom: 8px; }
-    h2 { font-size: 20px; margin-top: 36px; }
-    p { margin: 10px 0; }
-    ul { padding-left: 20px; }
-    .meta { color: #555; font-size: 14px; }
-    .card {
-      border: 1px solid #eee;
-      border-radius: 14px;
-      padding: 18px;
-      margin: 18px 0;
-      background: #fff;
+    .hero{
+      padding:44px 0 24px;
+      display:grid;
+      gap:14px;
     }
-    img {
-      max-width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin: 12px 0;
+    .title{
+      font-size:28px; font-weight:800; letter-spacing:.2px;
+      margin:0;
     }
-    footer {
-      border-top: 1px solid #eee;
-      padding: 20px;
-      color: #666;
-      font-size: 13px;
-      text-align: center;
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .badges{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:999px;
+      box-shadow: 0 4px 14px rgba(17,24,39,.05);
+      font-size:13px;
+      color:#111;
+    }
+    .dot{ width:8px; height:8px; border-radius:999px; background:var(--accent); }
+    .dot.green{ background:var(--accent2); }
+
+    main{ padding:26px 0 70px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 960px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .card h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .card p{ margin:10px 0; }
+    .muted{ color:var(--muted); }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin-top:10px;
+    }
+    .kpi .box{
+      border:1px solid var(--line);
+      background:var(--soft);
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    .kpi .big{ font-weight:800; font-size:18px; }
+    .kpi .small{ color:var(--muted); font-size:12px; margin-top:2px; }
+
+    .btns{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:13px;
+      font-weight:600;
+    }
+    .btn.primary{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#fff;
+    }
+    .btn.primary:hover{ opacity:.92; text-decoration:none; }
+    .btn:hover{ text-decoration:none; }
+
+    .section-title{
+      margin:22px 0 12px;
+      font-size:16px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+    @media (max-width: 960px){
+      .gallery{ grid-template-columns: 1fr; }
+    }
+    figure{
+      margin:0;
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    figure img{
+      width:100%;
+      display:block;
+      cursor:zoom-in;
+      background:#fff;
+    }
+    figcaption{
+      padding:10px 12px;
+      font-size:13px;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+    }
+
+    .list{
+      margin:0; padding-left:18px;
+    }
+    .list li{ margin:6px 0; }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:18px 0;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
     }
   </style>
 </head>
 
 <body>
 <header>
-  <h1>臨床數據分析專案｜個人主頁</h1>
-  <div class="meta">
-    姓名：Derek ｜ GitHub：Derek-GM
+  <div class="wrap hero">
+    <h1 class="title">臨床數據分析專案｜個人主頁</h1>
+    <p class="sub">姓名：Derek ｜ GitHub：Derek-GM ｜ 專案：WDBC 臨床資料二分類（良性/惡性）</p>
+
+    <div class="badges">
+      <div class="badge"><span class="dot"></span> GitHub Pages 公開展示</div>
+      <div class="badge"><span class="dot green"></span> LaTeX PDF 報告已產出</div>
+      <div class="badge"><span class="dot"></span> Logistic Regression + Random Forest</div>
+    </div>
   </div>
-  <p>
-    專案主題：臨床數據分析
+</header>
+
+<main>
+  <div class="wrap grid">
+
+    <!-- Left: main narrative -->
+    <section class="card">
+      <h2>專案簡介</h2>
+      <p>
+        本專案使用公開臨床資料集 <b>Wisconsin Diagnostic Breast Cancer (WDBC)</b>，
+        完成完整資料分析流程：<b>數據讀取 → 預處理 → 統計分析 → 預測模型建立 → 模型評估與可視化</b>，
+        並以 GitHub Pages 公開展示成果與 LaTeX PDF 報告。
+      </p>
+
+      <div class="section-title">成果總覽（測試集）</div>
+      <div class="kpi">
+        <div class="box">
+          <div class="big">Accuracy ≈ 0.971</div>
+          <div class="small">Logistic Regression / Random Forest（同一切分）</div>
+        </div>
+        <div class="box">
+          <div class="big">ROC-AUC ≈ 0.997</div>
+          <div class="small">兩模型皆具高辨識度</div>
+        </div>
+      </div>
+
+      <div class="btns">
+        <a class="btn primary" href="report/main.pdf" target="_blank" rel="noopener">📄 打開完整報告（PDF）</a>
+        <a class="btn" href="https://github.com/Derek-GM/clinical-data-project" target="_blank" rel="noopener">🔗 Repo（原始碼/資料）</a>
+        <a class="btn" href="code/wdbc_run_analysis.py" target="_blank" rel="noopener">🧠 分析程式（Python）</a>
+        <a class="btn" href="data/wdbc.csv" target="_blank" rel="noopener">🗂️ 資料（CSV）</a>
+      </div>
+
+      <div class="section-title">分析流程（對應評分點）</div>
+      <ul class="list">
+        <li><b>数据读取</b>：pandas 讀取 WDBC CSV，建立二元標籤（M=1 / B=0）</li>
+        <li><b>数据预处理</b>：缺失值檢查、特徵標準化、stratified train-test split</li>
+        <li><b>统计分析</b>：描述性統計（mean±sd）、Welch’s t-test 組間比較，輸出 baseline table（LaTeX）</li>
+        <li><b>预测模型建立</b>：Logistic Regression（基線、可解釋）與 Random Forest（非線性）</li>
+        <li><b>评估与可视化</b>：Accuracy、ROC-AUC、Sensitivity/Specificity，ROC/Confusion Matrix/Feature Importance</li>
+      </ul>
+
+      <div class="section-title">模型解釋（Interpretation）</div>
+      <p class="muted">
+        Random Forest 的特徵重要性顯示，腫瘤尺寸相關變數（如 radius/perimeter/area 類指標）對惡性預測貢獻最大，
+        與臨床上對腫瘤大小作為風險訊號的認知一致，提升模型結果的可信度。
+      </p>
+    </section>
+
+    <!-- Right: quick access -->
+    <aside class="card">
+      <h2>快速入口</h2>
+      <p class="muted">老師一眼就能點到成果與檔案。</p>
+      <ul class="list">
+        <li>📄 <a href="report/main.pdf" target="_blank" rel="noopener">main.pdf（LaTeX 報告）</a></li>
+        <li>🧾 <a href="report/main.tex" target="_blank" rel="noopener">main.tex（LaTeX 原始）</a></li>
+        <li>📈 <a href="figures/roc.png" target="_blank" rel="noopener">ROC 曲線（roc.png）</a></li>
+        <li>🧩 <a href="figures/cm_rf.png" target="_blank" rel="noopener">混淆矩陣（cm_rf.png）</a></li>
+        <li>⭐ <a href="figures/rf_importance.png" target="_blank" rel="noopener">特徵重要性（rf_importance.png）</a></li>
+        <li>🐍 <a href="code/wdbc_run_analysis.py" target="_blank" rel="noopener">wdbc_run_analysis.py</a></li>
+      </ul>
+
+      <div class="section-title">資料與聲明</div>
+      <p class="muted">
+        本專案使用公開且去識別化資料，僅作為課程作業與學術展示用途，不涉及任何個資。
+      </p>
+    </aside>
+
+  </div>
+
+  <div class="wrap">
+    <div class="section-title">可視化結果（點圖可放大）</div>
+
+    <div class="gallery">
+      <figure>
+        <a href="figures/roc.png" target="_blank" rel="noopener">
+          <img src="figures/roc.png" alt="ROC Curve">
+        </a>
+        <figcaption>ROC 曲線（模型分類效能比較）</figcaption>
+      </figure>
+
+      <figure>
+        <a href="figures/cm_rf.png" target="_blank" rel="noopener">
+          <img src="figures/cm_rf.png" alt="Confusion Matrix">
+        </a>
+        <figcaption>Random Forest 混淆矩陣（測試集）</figcaption>
+      </figure>
+
+      <figure>
+        <a href="figures/rf_importance.png" target="_blank" rel="noopener">
+          <img src="figures/rf_importance.png" alt="Feature Importance">
+        </a>
+        <figcaption>Random Forest 特徵重要性（Top 15）</figcaption>
+      </figure>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 Derek｜Clinical Data Project（GitHub Pages 公開展示）
+</footer>
+</body>
+</html>
+
 
