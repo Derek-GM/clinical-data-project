@@ -3,164 +3,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>臨床數據分析與預測模型｜課程專案展示</title>
-
+  <title>臨床數據分析專案｜Derek</title>
   <style>
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, "Noto Sans TC",
-                   "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
+      font-family: system-ui, -apple-system, "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
       line-height: 1.7;
       color: #111;
+      background: #fff;
+    }
+    header {
+      padding: 48px 16px 28px;
+      border-bottom: 1px solid #eee;
       background: #fafafa;
     }
-
-    header {
-      padding: 48px 16px 32px;
-      border-bottom: 1px solid #e5e5e5;
-      background: #ffffff;
-    }
-
     main {
       max-width: 960px;
       margin: 0 auto;
-      padding: 32px 16px 64px;
+      padding: 24px 16px 64px;
     }
-
-    h1 {
-      font-size: 30px;
-      margin: 0 0 10px;
-    }
-
-    h2 {
-      font-size: 20px;
-      margin: 32px 0 12px;
-      border-left: 4px solid #4c7ef3;
-      padding-left: 10px;
-    }
-
-    p {
-      margin: 10px 0;
-    }
-
-    .meta {
-      color: #555;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    h2 { font-size: 20px; margin-top: 36px; }
+    p { margin: 10px 0; }
+    ul { padding-left: 20px; }
+    .meta { color: #555; font-size: 14px; }
     .card {
-      background: #fff;
-      border: 1px solid #eaeaea;
+      border: 1px solid #eee;
       border-radius: 14px;
-      padding: 20px;
-      margin: 22px 0;
+      padding: 18px;
+      margin: 18px 0;
+      background: #fff;
     }
-
     img {
       max-width: 100%;
-      border-radius: 10px;
       border: 1px solid #ddd;
+      border-radius: 8px;
       margin: 12px 0;
     }
-
-    a {
-      color: #4c7ef3;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
     footer {
-      border-top: 1px solid #e5e5e5;
-      padding: 18px 16px;
+      border-top: 1px solid #eee;
+      padding: 20px;
       color: #666;
       font-size: 13px;
       text-align: center;
-      background: #fff;
     }
   </style>
 </head>
 
 <body>
-
 <header>
-  <h1>臨床數據分析與預測模型建構</h1>
+  <h1>臨床數據分析專案｜個人主頁</h1>
   <div class="meta">
-    學生姓名：Derek<br/>
-    GitHub：<a href="https://github.com/Derek-GM" target="_blank">Derek-GM</a>
+    姓名：Derek ｜ GitHub：Derek-GM
   </div>
   <p>
-    本專案為課程「Python 資料分析與人工智慧在醫學中的應用」之期末作業，
-    使用公開臨床資料進行數據預處理、統計分析與機器學習建模，
-    並透過 LaTeX 報告與網頁進行成果展示。
-  </p>
-</header>
+    專案主題：臨床數據分析
 
-<main>
-
-  <section class="card">
-    <h2>一、資料來源與研究目的</h2>
-    <p>
-      本研究使用 Wisconsin Diagnostic Breast Cancer（WDBC）公開臨床資料集，
-      包含腫瘤影像特徵與良惡性標籤，研究目標為：
-    </p>
-    <ul>
-      <li>探索不同特徵在良惡性腫瘤間的統計差異</li>
-      <li>建立臨床預測模型進行分類</li>
-      <li>比較不同模型之預測效能</li>
-    </ul>
-  </section>
-
-  <section class="card">
-    <h2>二、數據分析流程</h2>
-    <ul>
-      <li>資料讀取（CSV 格式）</li>
-      <li>資料清洗與標準化（Standardization）</li>
-      <li>描述性統計與組間比較（t-test、卡方檢定）</li>
-      <li>預測模型建構（Logistic Regression、Random Forest）</li>
-      <li>模型評估與結果視覺化</li>
-    </ul>
-  </section>
-
-  <section class="card">
-    <h2>三、模型評估結果（可視化）</h2>
-
-    <p><strong>ROC 曲線（模型分類效能比較）</strong></p>
-    <img src="figures/roc.png" alt="ROC Curve">
-
-    <p><strong>Random Forest 混淆矩陣</strong></p>
-    <img src="figures/cm_rf.png" alt="Confusion Matrix">
-
-    <p><strong>Random Forest 特徵重要性</strong></p>
-    <img src="figures/rf_importance.png" alt="Feature Importance">
-
-  </section>
-
-  <section class="card">
-    <h2>四、分析報告（LaTeX PDF）</h2>
-    <p>
-      👉 <a href="report/main.pdf" target="_blank">
-        點此下載完整 LaTeX 分析報告（PDF）
-      </a>
-    </p>
-  </section>
-
-  <section class="card">
-    <h2>五、聲明</h2>
-    <p>
-      本專案僅使用公開、去識別化之臨床資料，
-      僅作為課程作業與學術展示用途，無任何臨床診斷或商業應用。
-    </p>
-  </section>
-
-</main>
-
-<footer>
-  © 2026 Derek｜Clinical Data Analysis Project
-</footer>
-
-</body>
-</html>
