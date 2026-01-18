@@ -1,12 +1,18 @@
-# clinical-data-project
-Clinical data analysis project (public course assignment)
+# Clinical Data Analysis and Predictive Modeling
+
+This repository contains a complete clinical data analysis project developed as part of a course assignment.  
+The project demonstrates a full data science workflow applied to a real-world clinical dataset.
 
 ## Project Overview
 
-This repository contains a clinical data analysis and predictive modeling project
-based on the Breast Cancer Wisconsin (Diagnostic) dataset.
+- **Topic**: Clinical Data Analysis and Predictive Modeling  
+- **Author**: Derek  
+- **Dataset**: Wisconsin Breast Cancer Diagnostic (WDBC) dataset  
+- **Tech Stack**: Python, pandas, NumPy, scikit-learn, matplotlib, LaTeX  
 
-- Data preprocessing and statistical analysis were conducted using Python
-- Predictive models include Logistic Regression and Random Forest
-- Results and visualizations are documented in `report/main.pdf`
-- A project overview page is available via GitHub Pages
+The project covers data preprocessing, statistical analysis, predictive modeling, model evaluation, and result visualization.
+
+---
+
+## Repository Structure
+
