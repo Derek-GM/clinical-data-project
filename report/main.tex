@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{hyperref}
+
+\title{Clinical Data Analysis and Predictive Modeling}
+\author{Derek}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This report presents a complete data analysis workflow including data loading, preprocessing,
+statistical analysis, predictive modeling, and model evaluation using a clinical-related dataset.
+The goal is to demonstrate the application of data analysis techniques in a medical context.
+
+\section{Data Source and Description}
+
+The dataset used in this study is the Wisconsin Diagnostic Breast Cancer (WDBC) dataset,
+which is a publicly available clinical dataset obtained from the UCI Machine Learning Repository.
+The dataset contains measurements computed from digitized images of breast mass biopsies
+and is widely used for medical data analysis and disease prediction tasks.
+
+Each observation represents one patient, and the outcome variable indicates whether the tumor
+is malignant or benign. The dataset includes 569 patient samples with 30 continuous numerical
+features describing tumor characteristics, such as radius, texture, perimeter, and smoothness.
+
+The data were provided in comma-separated values (CSV) format and were loaded into the analysis
+environment using the Python \texttt{pandas} library.
+
+\begin{verbatim}
+import pandas as pd
+data = pd.read_csv("wdbc.csv")
+\end{verbatim}
+
+\section{Data Preprocessing}
+
+Data preprocessing was conducted to ensure data quality and suitability for statistical
+analysis and predictive modeling. The dataset was first examined for missing values.
+No missing data were identified in the selected features, and therefore no imputation
+was required.
+
+The diagnosis variable was encoded as a binary outcome, where malignant tumors were
+coded as 1 and benign tumors as 0. All continuous features were standardized to have
+zero mean and unit variance to improve model convergence and ensure comparability
+across variables.
+
+After preprocessing, the dataset was randomly split into training and testing sets,
+with 70\% of the data used for model training and 30\% reserved for model evaluation.
+The splitting was performed at the patient level to avoid information leakage.
+
+\section{Statistical Analysis}
+
+Descriptive statistical analysis was performed to summarize baseline characteristics
+of the study population. Continuous variables were reported as mean and standard deviation.
+
+Comparative statistical analyses were conducted to examine differences between malignant
+and benign tumor groups. Independent two-sample t-tests were used for continuous variables
+to compare group means. Statistical significance was assessed using a two-sided test
+with a significance level of $\alpha = 0.05$.
+
+Several tumor features, including radius, perimeter, and area, showed statistically
+significant differences between malignant and benign groups, indicating their potential
+value as predictive biomarkers.
+
+\section{Predictive Modeling}
+
+Predictive models were developed to classify tumors as malignant or benign based on
+clinical features. Logistic Regression was used as a baseline statistical model due to
+its interpretability and suitability for binary classification tasks.
+
+In addition, a Random Forest classifier was implemented to capture potential nonlinear
+relationships among features. Model training was performed using the training dataset,
+and hyperparameters were selected based on standard practices to balance model performance
+and generalization.
+
+\section{Model Evaluation and Visualization}
+
+Model performance was evaluated on the independent testing dataset. Evaluation metrics
+included classification accuracy, sensitivity, specificity, and the area under the
+receiver operating characteristic curve (ROC-AUC).
+
+ROC curves were used to visualize model discrimination ability, and confusion matrices
+were examined to assess classification performance. The Random Forest model demonstrated
+improved predictive performance compared to Logistic Regression, indicating its ability
+to capture complex feature interactions.
+
+Feature importance analysis further highlighted the contribution of key tumor
+characteristics to model predictions.
+
+\section{Discussion}
+
+This study demonstrates that machine learning models can effectively predict breast
+cancer malignancy using structured clinical data. Traditional statistical models provide
+interpretability, while ensemble methods offer improved predictive performance.
+
+Although this study focused on structured tabular data, medical imaging data such as
+mammography or histopathology images may further enhance predictive accuracy when combined
+with clinical features.
+
+\section{Conclusion}
+
+This project presents a complete and reproducible clinical data analysis pipeline,
+including data preprocessing, statistical analysis, predictive modeling, and model
+evaluation. The results highlight the effectiveness of machine learning approaches
+in medical decision support.
+
+\end{document}
